@@ -1,0 +1,26 @@
+[
+  {
+    "name": "请求不符",
+    "changes": {
+      "requestId": "OTHER"
+    }
+  },
+  {
+    "name": "没有打印事实",
+    "changes": {
+      "printed": null
+    }
+  },
+  {
+    "name": "额度扣减非一号",
+    "changes": {
+      "quotaDebit": 2
+    }
+  },
+  {
+    "name": "来源余额不符",
+    "changes": {
+      "remaining": 1
+    }
+  }
+]
