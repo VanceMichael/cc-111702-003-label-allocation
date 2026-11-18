@@ -1,0 +1,21 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/labels",
+      "responses": [
+        {
+          "body": {
+            "requestId": "R1",
+            "parcel": "P1",
+            "number": "N1",
+            "quotaDebit": 1,
+            "remaining": 4,
+            "jobId": "J1",
+            "printed": true
+          }
+        }
+      ]
+    }
+  ]
+}

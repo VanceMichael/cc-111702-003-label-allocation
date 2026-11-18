@@ -1,0 +1,11 @@
+{
+  "initial": {
+    "parcels": {},
+    "prints": {},
+    "capacity": 5
+  },
+  "route": {
+    "method": "POST",
+    "path": "/labels"
+  }
+}
