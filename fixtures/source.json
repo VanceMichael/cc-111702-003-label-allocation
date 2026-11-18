@@ -16,6 +16,60 @@
           }
         }
       ]
+    },
+    {
+      "method": "POST",
+      "path": "/labels/N1/void",
+      "responses": [
+        {
+          "body": {
+            "voidRequest": "V1",
+            "number": "N1",
+            "status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/voids/V1",
+      "responses": [
+        {
+          "body": {
+            "voidRequest": "V1",
+            "number": "N1",
+            "status": "pending",
+            "quotaReturned": false
+          }
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/print-receipts",
+      "responses": [
+        {
+          "body": {
+            "jobId": "J1",
+            "number": "N1",
+            "printed": true
+          }
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/labels/N1",
+      "responses": [
+        {
+          "body": {
+            "number": "N1",
+            "parcel": "P1",
+            "handover": false,
+            "status": "active"
+          }
+        }
+      ]
     }
   ]
 }
