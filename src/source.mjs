@@ -22,10 +22,15 @@ export class Source {
       const chunks = []; let bytes = 0;
       for await (const chunk of response.body ?? []) { bytes += chunk.length; if (bytes > 1024 * 1024) throw new Error('来源响应超过限制'); chunks.push(chunk); }
       const content = Buffer.concat(chunks);
+      const contentType = response.headers.get('content-type') ?? '';
       const receipt = { method, path: target.pathname, status: response.status, bytes, sha256: createHash('sha256').update(content).digest('hex'), milliseconds: Math.round(performance.now() - started) };
       this.history.push(receipt);
-      if (!response.ok) { const error = new Error(`来源请求未接纳：${response.status}`); error.status = response.status; error.receipt = receipt; throw error; }
-      const contentType = response.headers.get('content-type') ?? '';
+      if (!response.ok) {
+        const error = new Error(`来源请求未接纳：${response.status}`);
+        error.status = response.status; error.receipt = receipt;
+        if (contentType.includes('application/json')) { try { error.body = JSON.parse(content.toString('utf8')); } catch { error.body = null; } }
+        throw error;
+      }
       if (!contentType.includes('application/json')) throw new Error('来源未声明JSON表示');
       try { return JSON.parse(content.toString('utf8')); } catch { throw new Error('来源JSON不完整'); }
     } catch (error) {

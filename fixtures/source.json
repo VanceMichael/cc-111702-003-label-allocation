@@ -14,6 +14,17 @@
             "jobId": "J1",
             "printed": true
           }
+        },
+        {
+          "body": {
+            "requestId": "R-P1-REOPEN",
+            "parcel": "P1",
+            "number": "N2",
+            "quotaDebit": 1,
+            "remaining": 4,
+            "jobId": "J2",
+            "printed": false
+          }
         }
       ]
     },
@@ -40,6 +51,14 @@
             "number": "N1",
             "status": "pending",
             "quotaReturned": false
+          }
+        },
+        {
+          "body": {
+            "voidRequest": "V1",
+            "number": "N1",
+            "status": "completed",
+            "quotaReturned": true
           }
         }
       ]

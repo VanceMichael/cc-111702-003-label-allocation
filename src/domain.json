@@ -7,5 +7,27 @@
   "route": {
     "method": "POST",
     "path": "/labels"
+  },
+  "routes": {
+    "issue": {
+      "method": "POST",
+      "path": "/labels"
+    },
+    "label": {
+      "method": "GET",
+      "path": "/labels/:number"
+    },
+    "void": {
+      "method": "POST",
+      "path": "/labels/:number/void"
+    },
+    "voidStatus": {
+      "method": "GET",
+      "path": "/voids/:id"
+    },
+    "printReceipt": {
+      "method": "POST",
+      "path": "/print-receipts"
+    }
   }
 }

@@ -1,12 +1,16 @@
 # 来源业务约定
-当前已运行的业务范围：为未领号包裹申请面单，登记号码和打印回执，显示当前可用号码及剩余额度。
+当前已运行的业务范围：为未领号包裹申请面单，登记号码和打印回执，显示当前可用号码及剩余额度；并支持按包裹办理破损面单重开。
 以下约定描述合作源接口及其返回含义，不表示工作台已经办理了所有来源状态。
 ## `POST /labels`
-按requestId领号，返回number、parcel、quotaDebit；相同requestId可查询原结果。
+按requestId领号，返回number、parcel、quotaDebit；相同requestId可查询原结果。重开领号携带 `reissue: true` 与原重开 requestId，返回新的 number/jobId/printed 及额度扣减。
+## `GET /labels/:number`
+承运平台号码核实，返回 handover（是否已交寄）与 status。已交寄（handover=true 或 status=handed-over）的号码不能作废，工作台据此进入拒绝终态。
 ## `POST /labels/:number/void`
-返回受理号或已交寄拒绝；受理号需通过GET /voids/:id查询结论。
+发起作废，返回受理号 voidRequest 与 status=pending；受理不等于作废完成。已交寄等业务拒绝以 4xx 返回业务原因（如 reason=already-handed-over），工作台转为对应终态。
+## `GET /voids/:id`
+查询作废结论。status 为 pending/processing 时继续等待；completed 且 quotaReturned=true 才表示作废完成且额度回收；rejected/handed-over 为最终拒绝。
 ## `POST /print-receipts`
-打印设备上报jobId和number，可能晚于人工重开申请到达。
+打印设备上报jobId和number，可能晚于人工重开申请到达。工作台据此核实原面单是否真的打印过；该通道只决定打印事实，不推断平台号码状态。
 ## 本地传输
 本地来源按请求方法和路径匹配，查询和正文不参与路由匹配。响应脚本只负责返回来源原始数据，不替工作台判断业务是否完成。`delayMs` 为本次响应延迟，`disconnect` 表示未返回确定响应便断开连接，`status` 为 HTTP 状态；记录顺序与实际请求一致。来源实例独享响应进度，重新启动恢复第一条。
 业务标识区分大小写；金额为最小货币单位的整数，时间为本地来源统一的整数秒。样例中的身份、合同和公司均为合成资料，不是外部系统账号。
